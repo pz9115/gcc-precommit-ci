@@ -45,7 +45,7 @@ on:
 jobs:
   fetch_patches:
     # This is a dedicated self hosted runner that will always* run this on time
-    runs-on: [self-hosted, ping]
+    runs-on: [self-hosted, linux, x64]
     defaults:
       run:
         working-directory: riscv-gnu-toolchain

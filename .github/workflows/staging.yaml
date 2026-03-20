@@ -56,7 +56,7 @@ jobs:
     secrets: inherit
 
   get-patch-info:
-    runs-on: [self-hosted, ping]
+    runs-on: [self-hosted, linux, x64]
     if: ${{ github.event_name == 'pull_request' }}
     defaults:
       run:
