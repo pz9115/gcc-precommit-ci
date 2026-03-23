@@ -8,7 +8,7 @@ jobs:
   get-patch-info:
     runs-on: ubuntu-24.04
     environment: production
-    if: ${{ !github.event.issue.pull_request && (contains(github.event.comment.body, '/pass_') || contains(github.event.comment.body, '/warn_') || contains(github.event.comment.body, '/error_')) && (github.event.comment.user.login == 'pz9115' || github.event.comment.user.login == 'patrick-rivos') }}
+    if: ${{ !github.event.issue.pull_request && (contains(github.event.comment.body, '/pass_') || contains(github.event.comment.body, '/warn_') || contains(github.event.comment.body, '/error_')) && (github.event.comment.user.login == 'pz9115' || github.event.comment.user.login == 'pz9115') }}
     defaults:
       run:
         working-directory: riscv-gnu-toolchain
