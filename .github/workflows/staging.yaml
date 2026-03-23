@@ -86,7 +86,7 @@ jobs:
       - name: Get patch data
         id: data
         run: |
-          python scripts/get_staging_patch.py -repo ewlu/gcc-precommit-ci -token ${{ secrets.GITHUB_TOKEN }}
+          python scripts/get_staging_patch.py -repo pz9115/gcc-precommit-ci -token ${{ secrets.GITHUB_TOKEN }}
           echo "timestamp=$(cat timestamp.txt)" >> $GITHUB_OUTPUT
           echo "baseline_hash=$(cat baseline_hash.txt)" >> $GITHUB_OUTPUT
           echo "tot_hash=$(cat tot_hash.txt)" >> $GITHUB_OUTPUT

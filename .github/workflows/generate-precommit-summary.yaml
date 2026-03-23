@@ -138,7 +138,7 @@ jobs:
         with:
           gcchash: ${{ inputs.patch_applied_gcchash }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          repo: 'ewlu/gcc-precommit-ci'
+          repo: 'pz9115/gcc-precommit-ci'
 
       - name: Print API usage info
         run: |
@@ -169,7 +169,7 @@ jobs:
 
       - name: Search for build failures
         run: |
-          python scripts/update_issue_status.py -token ${{ secrets.GITHUB_TOKEN }} -comment ${{ inputs.build_comment_id }} -repo ewlu/gcc-precommit-ci -failure -baseline ${{ inputs.baseline_hash }}
+          python scripts/update_issue_status.py -token ${{ secrets.GITHUB_TOKEN }} -comment ${{ inputs.build_comment_id }} -repo pz9115/gcc-precommit-ci -failure -baseline ${{ inputs.baseline_hash }}
           ls current_logs
         continue-on-error: true
 
@@ -208,7 +208,7 @@ jobs:
         if: ${{ needs.compare-artifacts.outputs.workflow_dispatch == 'true' }}
         run: |
           mkdir patches
-          python ./scripts/download_artifact.py -name ${{ inputs.patch_name }}-downloaded-patches -repo ewlu/gcc-precommit-ci -token ${{ secrets.GITHUB_TOKEN }} -outdir ./patches
+          python ./scripts/download_artifact.py -name ${{ inputs.patch_name }}-downloaded-patches -repo pz9115/gcc-precommit-ci -token ${{ secrets.GITHUB_TOKEN }} -outdir ./patches
           ls patches
 
       - name: Download patches artifact
@@ -249,7 +249,7 @@ jobs:
       #     build-artifact-name: ${{ steps.build-log-setup.outputs.patch_hash }}-linux-rv64gc-lp64d-non-multilib-build-log
       #     github-token: ${{ secrets.GITHUB_TOKEN }}
       #     output-dir: ${{ steps.build-log-setup.outputs.current_build_log_zips_path }}
-      #     repository: ewlu/gcc-precommit-ci
+      #     repository: pz9115/gcc-precommit-ci
 
       # - name: Download Current newlib rv64gc lp64d non multilib Workflow build logs
       #   uses: ./.github/actions/common/download-build-log-artifact
@@ -257,9 +257,9 @@ jobs:
       #     build-artifact-name: ${{ steps.build-log-setup.outputs.patch_hash }}-newlib-rv64gc-lp64d-non-multilib-build-log
       #     github-token: ${{ secrets.GITHUB_TOKEN }}
       #     output-dir: ${{ steps.build-log-setup.outputs.current_build_log_zips_path }}
-      #     repository: ewlu/gcc-precommit-ci
+      #     repository: pz9115/gcc-precommit-ci
 
-      #TODO: Support Multilib. Restriction: https://github.com/ewlu/gcc-precommit-ci/pull/1919#discussion_r1686874053
+      #TODO: Support Multilib. Restriction: https://github.com/pz9115/gcc-precommit-ci/pull/1919#discussion_r1686874053
 
       # - name: Unzip current build log artifacts
       #   uses: ./.github/actions/common/unzip-all-zips
@@ -387,7 +387,7 @@ jobs:
         if: ${{ needs.compare-artifacts.outputs.workflow_dispatch == 'true' }}
         run: |
           mkdir patches
-          python ./scripts/download_artifact.py -name ${{ inputs.patch_name }}-downloaded-patches -repo ewlu/gcc-precommit-ci -token ${{ secrets.GITHUB_TOKEN }} -outdir ./patches
+          python ./scripts/download_artifact.py -name ${{ inputs.patch_name }}-downloaded-patches -repo pz9115/gcc-precommit-ci -token ${{ secrets.GITHUB_TOKEN }} -outdir ./patches
           ls patches
 
       - name: Download patches artifact
@@ -510,12 +510,12 @@ jobs:
         if: ${{ github.workflow != 'Staging' && (contains(steps.issue-labels.outputs.issue_labels, 'build-failure') || contains(steps.issue-labels.outputs.issue_labels, 'testsuite-failure') || contains(steps.issue-labels.outputs.issue_labels, 'new-regressions')) }}
         id: report-failure
         run: |
-          python scripts/post_check_to_patchworks.py -event ${{ github.event_name }} -repo ewlu/gcc-precommit-ci -pid $(tail -n 1 ./patches/${{ inputs.patch_name }}) -desc 'Testing failed' -iid '${{ inputs.issue_num }}#issuecomment-${{ inputs.test_comment_id }}' -state 'fail' -context 'test' -token '${{ secrets.PATCHWORK_API }}'
+          python scripts/post_check_to_patchworks.py -event ${{ github.event_name }} -repo pz9115/gcc-precommit-ci -pid $(tail -n 1 ./patches/${{ inputs.patch_name }}) -desc 'Testing failed' -iid '${{ inputs.issue_num }}#issuecomment-${{ inputs.test_comment_id }}' -state 'fail' -context 'test' -token '${{ secrets.PATCHWORK_API }}'
         continue-on-error: true
 
       - name: Report Success
         if: ${{ github.workflow != 'Staging' && steps.report-failure.outcome == 'skipped' }}
         id: report-success
         run: |
-          python scripts/post_check_to_patchworks.py -event ${{ github.event_name }} -repo ewlu/gcc-precommit-ci -pid $(tail -n 1 ./patches/${{ inputs.patch_name }}) -desc 'Testing passed' -iid '${{ inputs.issue_num }}#issuecomment-${{ inputs.test_comment_id }}' -state 'success' -context 'test' -token '${{ secrets.PATCHWORK_API }}'
+          python scripts/post_check_to_patchworks.py -event ${{ github.event_name }} -repo pz9115/gcc-precommit-ci -pid $(tail -n 1 ./patches/${{ inputs.patch_name }}) -desc 'Testing passed' -iid '${{ inputs.issue_num }}#issuecomment-${{ inputs.test_comment_id }}' -state 'success' -context 'test' -token '${{ secrets.PATCHWORK_API }}'
         continue-on-error: true

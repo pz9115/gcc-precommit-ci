@@ -34,7 +34,7 @@ runs:
         output-dir: ${{ inputs.output-dir }}
         repository: patrick-rivos/gcc-postcommit-ci
 
-    #TODO: Support Multilib. Restriction: https://github.com/ewlu/gcc-precommit-ci/pull/1919#discussion_r1686874053
+    #TODO: Support Multilib. Restriction: https://github.com/pz9115/gcc-precommit-ci/pull/1919#discussion_r1686874053
 
     - name: Print downloaded artifacts
       shell: bash
